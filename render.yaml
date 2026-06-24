@@ -10,7 +10,7 @@ services:
       - key: N8N_HOST
         value: 0.0.0.0
       - key: N8N_PORT
-        value: 5678
+        value: 10000
       - key: N8N_PROTOCOL
         value: https
       - key: NODE_ENV
