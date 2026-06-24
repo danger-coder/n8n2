@@ -7,9 +7,7 @@ RUN mkdir -p /home/node/.n8n && \
 
 USER node
 
-# Render injects $PORT at runtime; n8n reads N8N_PORT
-ENV N8N_PORT=5678
-
 EXPOSE 5678
 
-ENTRYPOINT ["n8n", "start"]
+# Render injects $PORT; pass it to n8n via N8N_PORT
+CMD ["sh", "-c", "N8N_PORT=${PORT:-5678} n8n start"]

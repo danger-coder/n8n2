@@ -35,4 +35,3 @@ services:
         value: false
 
     healthCheckPath: /healthz
-    startCommand: "sh -c 'N8N_PORT=$PORT n8n start'"
