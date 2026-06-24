@@ -1,0 +1,38 @@
+services:
+  - type: web
+    name: n8n
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    region: oregon
+
+    envVars:
+      - key: N8N_HOST
+        value: 0.0.0.0
+      - key: N8N_PORT
+        value: 5678
+      - key: N8N_PROTOCOL
+        value: https
+      - key: NODE_ENV
+        value: production
+      - key: WEBHOOK_URL
+        sync: false          # set to your Render public URL after first deploy
+      - key: N8N_ENCRYPTION_KEY
+        generateValue: true  # auto-generated, store it safely
+      - key: DB_TYPE
+        value: postgresdb
+      - key: DB_POSTGRESDB_HOST
+        sync: false          # from Neon: e.g. ep-xxx.us-east-2.aws.neon.tech
+      - key: DB_POSTGRESDB_PORT
+        value: 5432
+      - key: DB_POSTGRESDB_DATABASE
+        value: neondb
+      - key: DB_POSTGRESDB_USER
+        sync: false          # from Neon dashboard
+      - key: DB_POSTGRESDB_PASSWORD
+        sync: false          # from Neon dashboard
+      - key: DB_POSTGRESDB_SSL_REJECT_UNAUTHORIZED
+        value: false
+
+    healthCheckPath: /healthz
+    startCommand: "sh -c 'N8N_PORT=$PORT n8n start'"
