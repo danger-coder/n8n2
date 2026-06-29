@@ -7,6 +7,8 @@ services:
     region: oregon
 
     envVars:
+      - key: NODE_OPTIONS
+        value: --max-old-space-size=400
       - key: N8N_HOST
         value: 0.0.0.0
       - key: N8N_PORT
@@ -22,7 +24,7 @@ services:
       - key: DB_TYPE
         value: postgresdb
       - key: DB_POSTGRESDB_HOST
-        sync: false          # from Neon: e.g. ep-xxx.us-east-2.aws.neon.tech
+        sync: false          # Neon DIRECT host (no -pooler): e.g. ep-xxx.c-2.us-east-1.aws.neon.tech
       - key: DB_POSTGRESDB_PORT
         value: 5432
       - key: DB_POSTGRESDB_DATABASE
@@ -33,5 +35,7 @@ services:
         sync: false          # from Neon dashboard
       - key: DB_POSTGRESDB_SSL_REJECT_UNAUTHORIZED
         value: false
+      - key: DB_POSTGRESDB_CONNECTION_TIMEOUT
+        value: 120
 
     healthCheckPath: /healthz
