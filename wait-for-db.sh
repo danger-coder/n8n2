@@ -19,7 +19,8 @@ while [ $i -lt $RETRIES ]; do
     s.on('error', ()=>process.exit(1));
     s.on('timeout', ()=>process.exit(1));
   " 2>/dev/null; then
-    echo "Postgres is ready — starting n8n."
+    echo "Postgres is ready — waiting 3s for full readiness ..."
+    sleep 3
     exec n8n start
   fi
   i=$((i + 1))
