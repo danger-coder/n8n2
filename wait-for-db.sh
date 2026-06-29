@@ -11,7 +11,14 @@ echo "Waiting for Postgres at ${HOST}:${PORT} ..."
 
 i=0
 while [ $i -lt $RETRIES ]; do
-  if pg_isready -h "$HOST" -p "$PORT" -U "${DB_POSTGRESDB_USER}" -t 5 > /dev/null 2>&1; then
+  if node -e "
+    const net = require('net');
+    const s = new net.Socket();
+    s.setTimeout(5000);
+    s.connect(parseInt(process.env.DB_POSTGRESDB_PORT||'5432'), process.env.DB_POSTGRESDB_HOST, ()=>{ s.destroy(); process.exit(0); });
+    s.on('error', ()=>process.exit(1));
+    s.on('timeout', ()=>process.exit(1));
+  " 2>/dev/null; then
     echo "Postgres is ready — starting n8n."
     exec n8n start
   fi
